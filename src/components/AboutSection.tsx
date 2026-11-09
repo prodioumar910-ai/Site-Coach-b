@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { CheckCircle2, ChevronRight, X } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { CheckCircle2, ChevronRight, X, Sparkles } from 'lucide-react';
 
 interface AboutSectionProps {
   onDiscoverCoachB: () => void;
@@ -7,6 +7,8 @@ interface AboutSectionProps {
 
 export const AboutSection: React.FC<AboutSectionProps> = ({ onDiscoverCoachB }) => {
   const [modalOpen, setModalOpen] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+  const [scrollOffset, setScrollOffset] = useState(0);
 
   const certifications = [
     { title: 'NASM Master Trainer', desc: 'Performance Enhancement & Kinetic Chain Optimization' },
@@ -17,85 +19,113 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ onDiscoverCoachB }) 
 
   const marqueeItems = [...certifications, ...certifications, ...certifications, ...certifications];
 
+  // Subtle scroll parallax for the image
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!sectionRef.current) return;
+      const rect = sectionRef.current.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      if (rect.top < windowHeight && rect.bottom > 0) {
+        // Calculate relative progress inside viewport
+        const progress = (windowHeight - rect.top) / (windowHeight + rect.height);
+        setScrollOffset((progress - 0.5) * 40); // -20px to +20px gentle parallax
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-    <section id="about" className="relative py-28 sm:py-36 bg-transparent overflow-hidden">
+    <section
+      ref={sectionRef}
+      id="about"
+      className="relative py-24 sm:py-32 bg-transparent overflow-hidden"
+    >
       {/* Subtle geometric ambient glow */}
       <div className="absolute top-1/4 -left-32 w-96 h-96 bg-[#D41478]/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-10 right-0 w-80 h-80 bg-[#B80F65]/10 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-6 sm:px-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-16 items-center">
-          {/* Left Column: Image on the Left */}
-          <div className="w-full relative transition-all duration-700 ease-out">
-            <div className="relative w-full">
-              {/* Outer Geometric Frame Accent */}
-              <div className="absolute -inset-3 sm:-inset-4 rounded-[28px] border border-[#D41478]/30 bg-gradient-to-tr from-[#D41478]/10 via-transparent to-white/5 -rotate-1 transition-transform duration-700 hover:rotate-0" />
-              
-              {/* Image Container with 24px radius */}
-              <div className="relative rounded-[24px] overflow-hidden bg-[#242426] shadow-2xl border border-white/10 group aspect-[3/4]">
-                <img
-                  src="/src/assets/images/coach_b_portrait_1794253310125.jpg"
-                  alt="Coach B"
-                  className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
-                  loading="lazy"
-                />
-                
-                {/* Subtle scrim & brand tag */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#303033]/90 via-transparent to-transparent pointer-events-none" />
-                
-                <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between text-xs font-['Inter']">
-                  <div>
-                    <span className="block font-['Sora'] font-bold text-white text-base">COACH B</span>
-                    <span className="text-white/70">Founder &amp; Master Coach</span>
-                  </div>
-                  <span className="px-3 py-1 rounded-[8px] bg-[#D41478]/90 text-white font-medium text-[11px] tracking-wider uppercase">
-                    PRIVATE PRACTICE
-                  </span>
-                </div>
-              </div>
+      <div className="max-w-5xl mx-auto px-6 sm:px-10">
+        {/* 1. TOP: Description & Presentation Section */}
+        <div className="text-center max-w-3xl mx-auto space-y-6 transition-all duration-700 ease-out">
+          <div className="space-y-3">
+            <span className="text-[#D41478] text-xs font-['Inter'] font-bold tracking-[0.25em] uppercase">
+              COACHING LEADERSHIP
+            </span>
+            <h2 className="font-['Sora'] font-extrabold text-3xl sm:text-5xl md:text-6xl tracking-tight text-white uppercase leading-[1.1]">
+              MEET YOUR COACH
+            </h2>
+            <p className="font-['Sora'] font-semibold text-lg sm:text-xl text-white/90 tracking-wide pt-1">
+              Experience · Discipline · Transformation
+            </p>
+          </div>
 
-              {/* Geometric Decorative Accent */}
-              <div className="absolute -bottom-6 -right-6 w-24 h-24 rounded-full border border-white/10 flex items-center justify-center bg-[#252528]/80 backdrop-blur-md hidden sm:flex">
-                <div className="w-16 h-16 rounded-full border border-[#D41478]/50 flex items-center justify-center">
-                  <span className="font-['Sora'] font-bold text-xs text-white">EST 2014</span>
-                </div>
+          {/* Short concise biography */}
+          <p className="font-['Inter'] text-sm sm:text-base text-white/75 leading-relaxed max-w-2xl mx-auto">
+            Coach B unites athletic precision with luxury wellness. Her methodology merges human biomechanics, restorative nervous-system protocols, and tailored nutrition to elevate both physical power and everyday vitality.
+          </p>
+
+          {/* CTA Button */}
+          <div className="pt-2 flex justify-center">
+            <button
+              onClick={() => setModalOpen(true)}
+              className="px-8 py-3.5 rounded-[10px] bg-[#D41478] hover:bg-[#B80F65] text-white text-xs font-['Inter'] font-bold tracking-wider uppercase transition-all duration-300 hover:scale-[1.03] active:scale-[0.98] shadow-lg shadow-[#D41478]/30 flex items-center gap-2.5 cursor-pointer"
+            >
+              <span>DISCOVER COACH B</span>
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+
+        {/* 2. BOTTOM: Coach B Portrait Image positioned below description with entrance & scroll parallax */}
+        <div className="mt-14 sm:mt-18 relative max-w-3xl mx-auto transition-all duration-700 ease-out">
+          {/* Outer Geometric Frame Accent */}
+          <div
+            className="absolute -inset-3 sm:-inset-5 rounded-[32px] border border-[#D41478]/30 bg-gradient-to-tr from-[#D41478]/15 via-transparent to-white/5 transition-transform duration-300 ease-out"
+            style={{
+              transform: `translateY(${scrollOffset * 0.5}px)`,
+            }}
+          />
+
+          {/* Main Image Container */}
+          <div
+            className="relative rounded-[26px] overflow-hidden bg-[#242426] shadow-2xl border border-white/15 group aspect-[16/10] sm:aspect-[16/9] transition-transform duration-300 ease-out"
+            style={{
+              transform: `translateY(${scrollOffset}px)`,
+            }}
+          >
+            <img
+              src="/src/assets/images/coach_b_portrait_1794253310125.jpg"
+              alt="Coach B"
+              className="w-full h-full object-cover object-[center_20%] transition-transform duration-1000 ease-out group-hover:scale-106"
+              loading="lazy"
+            />
+
+            {/* Subtle scrim & brand tag */}
+            <div className="absolute inset-0 bg-gradient-to-t from-[#202022]/90 via-transparent to-black/20 pointer-events-none" />
+
+            <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between text-xs font-['Inter']">
+              <div>
+                <span className="block font-['Sora'] font-bold text-white text-lg">COACH B</span>
+                <span className="text-white/70">Founder &amp; Master Coach</span>
               </div>
+              <span className="px-4 py-1.5 rounded-full bg-[#D41478] text-white font-bold text-[11px] tracking-wider uppercase shadow-md">
+                PRIVATE PRACTICE
+              </span>
             </div>
           </div>
 
-          {/* Right Column: Description (Geometric 50%) */}
-          <div className="w-full space-y-8 transition-all duration-700 ease-out">
-            <div className="space-y-3">
-              <span className="text-[#D41478] text-xs font-['Inter'] font-bold tracking-[0.25em] uppercase">
-                COACHING LEADERSHIP
-              </span>
-              <h2 className="font-['Sora'] font-extrabold text-3xl sm:text-5xl tracking-tight text-white uppercase leading-[1.1]">
-                MEET YOUR COACH
-              </h2>
-              <p className="font-['Sora'] font-semibold text-lg sm:text-xl text-white/90 tracking-wide pt-1">
-                Experience · Discipline · Transformation
-              </p>
-            </div>
-
-            {/* Short concise biography */}
-            <p className="font-['Inter'] text-sm sm:text-base text-white/75 leading-relaxed max-w-xl">
-              Coach B unites athletic precision with luxury wellness. Her methodology merges human biomechanics, restorative nervous-system protocols, and tailored nutrition to elevate both physical power and everyday vitality.
-            </p>
-
-            {/* CTA Button */}
-            <div className="pt-2 flex items-center gap-4">
-              <button
-                onClick={() => setModalOpen(true)}
-                className="px-7 py-3.5 rounded-[10px] bg-[#D41478] hover:bg-[#B80F65] text-white text-xs font-['Inter'] font-bold tracking-wider uppercase transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-[#D41478]/30 flex items-center gap-2.5 cursor-pointer"
-              >
-                <span>DISCOVER COACH B</span>
-                <ChevronRight className="w-4 h-4" />
-              </button>
+          {/* Geometric Decorative Accent */}
+          <div className="absolute -bottom-6 -right-6 w-24 h-24 rounded-full border border-white/10 flex items-center justify-center bg-[#252528]/85 backdrop-blur-md hidden sm:flex shadow-xl">
+            <div className="w-16 h-16 rounded-full border border-[#D41478]/60 flex items-center justify-center">
+              <span className="font-['Sora'] font-bold text-xs text-white">EST 2014</span>
             </div>
           </div>
         </div>
 
-        {/* Automatic Horizontal Scrolling Marquee (Left to Right) for Certifications */}
+        {/* 3. Automatic Horizontal Scrolling Marquee (Left to Right) for Certifications */}
         <div className="mt-20 pt-10 border-t border-white/10 relative">
           <div className="mb-4 flex items-center justify-between">
             <span className="text-[11px] font-['Inter'] font-bold tracking-[0.2em] text-[#D41478] uppercase">
@@ -108,8 +138,8 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ onDiscoverCoachB }) 
 
           {/* Marquee Container with edge gradients */}
           <div className="relative w-full overflow-hidden py-3">
-            <div className="absolute left-0 top-0 bottom-0 w-16 sm:w-28 bg-gradient-to-r from-[#303033] to-transparent z-10 pointer-events-none" />
-            <div className="absolute right-0 top-0 bottom-0 w-16 sm:w-28 bg-gradient-to-l from-[#303033] to-transparent z-10 pointer-events-none" />
+            <div className="absolute left-0 top-0 bottom-0 w-16 sm:w-28 bg-gradient-to-r from-[#1e1e20] to-transparent z-10 pointer-events-none" />
+            <div className="absolute right-0 top-0 bottom-0 w-16 sm:w-28 bg-gradient-to-l from-[#1e1e20] to-transparent z-10 pointer-events-none" />
 
             {/* Moving ticker track from Left to Right */}
             <div className="animate-marquee-ltr flex items-center gap-4">
