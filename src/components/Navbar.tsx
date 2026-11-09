@@ -29,23 +29,24 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking }) => {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-transparent transition-all duration-300 py-4 sm:py-5">
       <div className="max-w-7xl mx-auto px-6 sm:px-8 flex items-center justify-between gap-8">
-        {/* Zone 1: Brand Wordmark & Official Identity */}
+        {/* Zone 1: Official Provided COACH B Logo (Unmodified) */}
         <a
           href="#"
-          className="flex items-center gap-3.5 group shrink-0"
+          className="flex items-center shrink-0 group py-1"
           aria-label="Coach B Home"
         >
-          <div className="relative w-9 h-9 rounded-[8px] overflow-hidden bg-black/40 border border-white/15 flex items-center justify-center transition-transform duration-300 group-hover:scale-105 group-hover:border-[#D41478]/60 shadow-lg">
-            <img
-              src="/src/assets/images/coach_b_official_logo.png"
-              alt="Coach B"
-              className="w-full h-full object-cover scale-125 transition-transform duration-500 group-hover:scale-135"
-              loading="eager"
-            />
-          </div>
-          <span className="font-['Sora'] font-extrabold text-lg sm:text-xl tracking-wider text-white whitespace-nowrap">
-            COACH <span className="text-[#D41478] transition-colors duration-300 group-hover:text-[#B80F65]">B</span>
-          </span>
+          <img
+            src="/images/coach_b_logo_official.jpeg"
+            onError={(e) => {
+              const target = e.currentTarget;
+              if (!target.src.includes('IMG_7113')) {
+                target.src = '/assets/aistudio/IMG_7113_2483f0be.jpeg';
+              }
+            }}
+            alt="COACH B - Fitness • Nutrition • Wellness"
+            className="h-11 sm:h-14 md:h-16 w-auto object-contain rounded-md shadow-md transition-transform duration-300 group-hover:scale-105"
+            loading="eager"
+          />
         </a>
 
         {/* Zone 2: Navigation Links */}

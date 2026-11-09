@@ -79,48 +79,41 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ onDiscoverCoachB }) 
           </div>
         </div>
 
-        {/* 2. BOTTOM: Coach B Portrait Image positioned below description with entrance & scroll parallax */}
-        <div className="mt-14 sm:mt-18 relative max-w-3xl mx-auto transition-all duration-700 ease-out">
-          {/* Outer Geometric Frame Accent */}
+        {/* 2. BOTTOM: Official COACH B Logo Showcase positioned below description with entrance & scroll parallax */}
+        <div className="mt-14 sm:mt-18 relative max-w-2xl mx-auto transition-all duration-700 ease-out">
+          {/* Outer Metallic Fuchsia Frame Accent */}
           <div
-            className="absolute -inset-3 sm:-inset-5 rounded-[32px] border border-[#D41478]/30 bg-gradient-to-tr from-[#D41478]/15 via-transparent to-white/5 transition-transform duration-300 ease-out"
+            className="absolute -inset-3 sm:-inset-5 rounded-[34px] bg-gradient-to-r from-[#FF2E93] via-[#D41478] to-[#B80F65] opacity-80 blur-xs transition-transform duration-300 ease-out"
             style={{
               transform: `translateY(${scrollOffset * 0.5}px)`,
             }}
           />
 
-          {/* Main Image Container */}
+          {/* Main Logo Container Card */}
           <div
-            className="relative rounded-[26px] overflow-hidden bg-[#242426] shadow-2xl border border-white/15 group aspect-[16/10] sm:aspect-[16/9] transition-transform duration-300 ease-out"
+            className="relative rounded-[28px] overflow-hidden bg-white shadow-2xl border-2 border-pink-200/60 p-6 sm:p-10 group transition-transform duration-300 ease-out flex flex-col items-center justify-center"
             style={{
               transform: `translateY(${scrollOffset}px)`,
             }}
           >
             <img
-              src="/src/assets/images/coach_b_portrait_1794253310125.jpg"
-              alt="Coach B"
-              className="w-full h-full object-cover object-[center_20%] transition-transform duration-1000 ease-out group-hover:scale-106"
+              src="/images/coach_b_logo_official.jpeg"
+              onError={(e) => {
+                const target = e.currentTarget;
+                if (!target.src.includes('IMG_7113')) {
+                  target.src = '/assets/aistudio/IMG_7113_2483f0be.jpeg';
+                }
+              }}
+              alt="Official COACH B Logo - Fitness Nutrition Wellness"
+              className="w-full max-h-[340px] sm:max-h-[400px] object-contain transition-transform duration-700 ease-out group-hover:scale-103"
               loading="lazy"
             />
-
-            {/* Subtle scrim & brand tag */}
-            <div className="absolute inset-0 bg-gradient-to-t from-[#202022]/90 via-transparent to-black/20 pointer-events-none" />
-
-            <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between text-xs font-['Inter']">
-              <div>
-                <span className="block font-['Sora'] font-bold text-white text-lg">COACH B</span>
-                <span className="text-white/70">Founder &amp; Master Coach</span>
-              </div>
-              <span className="px-4 py-1.5 rounded-full bg-[#D41478] text-white font-bold text-[11px] tracking-wider uppercase shadow-md">
-                PRIVATE PRACTICE
-              </span>
-            </div>
           </div>
 
           {/* Geometric Decorative Accent */}
-          <div className="absolute -bottom-6 -right-6 w-24 h-24 rounded-full border border-white/10 flex items-center justify-center bg-[#252528]/85 backdrop-blur-md hidden sm:flex shadow-xl">
-            <div className="w-16 h-16 rounded-full border border-[#D41478]/60 flex items-center justify-center">
-              <span className="font-['Sora'] font-bold text-xs text-white">EST 2014</span>
+          <div className="absolute -bottom-5 -right-5 w-20 h-20 rounded-full border border-white/20 flex items-center justify-center bg-[#252528]/90 backdrop-blur-md hidden sm:flex shadow-xl">
+            <div className="w-14 h-14 rounded-full border border-[#D41478]/70 flex items-center justify-center">
+              <span className="font-['Sora'] font-bold text-[11px] text-white">OFFICIAL</span>
             </div>
           </div>
         </div>

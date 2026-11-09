@@ -12,17 +12,19 @@ export const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-16 pb-12 border-b border-white/10">
           {/* Brand Info */}
           <div className="md:col-span-5 space-y-4">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-[8px] overflow-hidden bg-black/40 border border-white/15 flex items-center justify-center">
-                <img
-                  src="/src/assets/images/coach_b_official_logo.png"
-                  alt="Coach B"
-                  className="w-full h-full object-cover scale-125"
-                />
-              </div>
-              <span className="font-['Sora'] font-extrabold text-lg tracking-wider text-white">
-                COACH <span className="text-[#D41478]">B</span>
-              </span>
+            <div className="flex items-center py-1">
+              <img
+                src="/images/coach_b_logo_official.jpeg"
+                onError={(e) => {
+                  const target = e.currentTarget;
+                  if (!target.src.includes('IMG_7113')) {
+                    target.src = '/assets/aistudio/IMG_7113_2483f0be.jpeg';
+                  }
+                }}
+                alt="COACH B - Fitness • Nutrition • Wellness"
+                className="h-12 sm:h-14 w-auto object-contain rounded-md shadow-md"
+                loading="lazy"
+              />
             </div>
 
             <p className="font-['Inter'] text-xs sm:text-sm text-white/60 leading-relaxed max-w-sm">
