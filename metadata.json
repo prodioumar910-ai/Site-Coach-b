@@ -1,0 +1,6 @@
+{
+  "name": "COACH B — Luxury Fitness & Modern Wellness",
+  "description": "Experience luxury fitness, modern wellness, and high-performance bespoke coaching with Coach B. Your body. Your power. Your transformation.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
